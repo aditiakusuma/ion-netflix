@@ -17,18 +17,22 @@ const routes: Array<RouteRecordRaw> = [
       },
       {
         path: "tab1",
+        meta: { tab: "tab1" },
         component: () => import("@/views/Tab1.vue"),
       },
       {
         path: "tab2",
+        meta: { tab: "tab2" },
         component: () => import("@/views/Tab2.vue"),
       },
       {
         path: "tab3",
+        meta: { tab: "tab3" },
         component: () => import("@/views/Tab3.vue"),
       },
       {
         path: "tab4",
+        meta: { tab: "tab4" },
         component: () => import("@/views/Tab4.vue"),
       },
     ],
