@@ -1,6 +1,6 @@
 <template>
   <ion-page>
-    <ion-header class="ion-no-border">
+    <ion-header ref="header" class="ion-no-border" :style="headerStyle">
       <ion-toolbar>
         <ion-img class="logo" src="/assets/images/netflix.png"></ion-img>
         <ion-row class="ion-justify-content-center ion-text-center">
@@ -17,7 +17,11 @@
         </ion-row>
       </ion-toolbar>
     </ion-header>
-    <ion-content :fullscreen="true">
+    <ion-content
+      :fullscreen="true"
+      scroll-events
+      @ionScroll="hideHeader($event)"
+    >
       <div class="spotlight">
         <div class="gradient"></div>
 
@@ -112,7 +116,7 @@ import {
   caretDownOutline,
   ellipsisVertical,
 } from "ionicons/icons";
-import { ref } from "vue";
+import { computed, ref } from "vue";
 
 export default {
   name: "Tab1",
@@ -198,6 +202,37 @@ export default {
       },
     ];
 
+    const header = ref<any>();
+    const headerHeight = ref<number>(0);
+    const scrollTop = ref<number>(0);
+
+    const newPosition = ref(0);
+    const newOpacity = ref(1);
+
+    const headerStyle = computed(() => {
+      return {
+        top: `${newPosition.value}px`,
+        opacity: newOpacity.value,
+      };
+    });
+
+    const hideHeader = (event: any) => {
+      headerHeight.value = header.value.$el.offsetHeight;
+      scrollTop.value = event.detail.scrollTop;
+
+      if (scrollTop.value < 0) {
+        return;
+      }
+
+      newPosition.value = -scrollTop.value / 2;
+
+      if (newPosition.value < -headerHeight.value) {
+        newPosition.value = -headerHeight.value;
+      }
+
+      newOpacity.value = 1 - newPosition.value / -headerHeight.value;
+    };
+
     return {
       add,
       play,
@@ -207,6 +242,11 @@ export default {
       sections,
       ellipsisVertical,
       opts,
+      hideHeader,
+      header,
+      newOpacity,
+      newPosition,
+      headerStyle,
     };
   },
 };
