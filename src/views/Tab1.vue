@@ -4,14 +4,15 @@
       <ion-toolbar>
         <ion-img class="logo" src="/assets/images/netflix.png"></ion-img>
         <ion-row class="ion-justify-content-center ion-text-center">
-          <ion-col size="4">
+          <ion-col size="4" class="ion-text-right">
             TV Shows
           </ion-col>
           <ion-col size="4">
             Movies
           </ion-col>
-          <ion-col size="4">
+          <ion-col size="4" class="ion-text-left" @click="openCategories">
             Categories
+            <ion-icon :icon="caretDownOutline"></ion-icon>
           </ion-col>
         </ion-row>
       </ion-toolbar>
@@ -57,9 +58,16 @@ import {
   IonContent,
   IonRow,
   IonCol,
+  IonIcon,
+  IonImg,
 } from "@ionic/vue";
 
-import { add, play, informationCircleOutline } from "ionicons/icons";
+import {
+  add,
+  play,
+  informationCircleOutline,
+  caretDownOutline,
+} from "ionicons/icons";
 
 export default {
   name: "Tab1",
@@ -70,13 +78,20 @@ export default {
     IonPage,
     IonRow,
     IonCol,
+    IonIcon,
+    IonImg,
   },
 
   setup() {
+    const openCategories = () => {
+      console.log("Categories opened !");
+    };
     return {
       add,
       play,
       informationCircleOutline,
+      caretDownOutline,
+      openCategories,
     };
   },
 };
