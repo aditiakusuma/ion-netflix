@@ -10,7 +10,7 @@
           <ion-col size="4">
             Movies
           </ion-col>
-          <ion-col size="4" class="ion-text-left" @click="openCategories">
+          <ion-col size="4" class="ion-text-left" @click="openModal">
             Categories
             <ion-icon :icon="caretDownOutline"></ion-icon>
           </ion-col>
@@ -107,6 +107,7 @@ import {
   IonSlides,
   IonSlide,
   IonButton,
+  modalController,
 } from "@ionic/vue";
 
 import {
@@ -117,6 +118,7 @@ import {
   ellipsisVertical,
 } from "ionicons/icons";
 import { computed, ref } from "vue";
+import Modal from "@/components/Modal.vue";
 
 export default {
   name: "Tab1",
@@ -135,8 +137,38 @@ export default {
   },
 
   setup() {
-    const openCategories = () => {
-      console.log("Categories opened !");
+    const categories = [
+      "Romance",
+      "Drama",
+      "Horror",
+      "Romance",
+      "Drama",
+      "Horror",
+      "Romance",
+      "Drama",
+      "Horror",
+      "Romance",
+      "Drama",
+      "Horror",
+      "Romance",
+      "Drama",
+      "Horror",
+    ];
+
+    const closeModal = async () => {
+      await modalController.dismiss();
+    };
+
+    const openModal = async () => {
+      const modal = await modalController.create({
+        component: Modal,
+        cssClass: "transparent-modal",
+        componentProps: {
+          categories: categories,
+          closeModal: closeModal,
+        },
+      });
+      return modal.present();
     };
 
     const opts = {
@@ -238,7 +270,6 @@ export default {
       play,
       informationCircleOutline,
       caretDownOutline,
-      openCategories,
       sections,
       ellipsisVertical,
       opts,
@@ -247,6 +278,9 @@ export default {
       newOpacity,
       newPosition,
       headerStyle,
+      categories,
+      openModal,
+      closeModal,
     };
   },
 };
